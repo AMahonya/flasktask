@@ -1,9 +1,9 @@
-#Flask Task Manager
+# Flask Task Manager
 >Дипломный проект по теме: Сравнение различных подходов к реализации REST API: Django Rest Framework, FastAPI и Flask-RESTful.
 
 >Этот проект представляет собой менеджер задач, разработанный с использованием Flask-RESTful. Ниже приведена структура проекта и инструкции по его использованию.
 
-##Структура проекта
+## Структура проекта
 flasktask/
 |-- appflask/
 |   |-- backand/
