@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Менеджер задач</title>
+</head>
+<body>
+    <h2>Мои задачи:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название задачи</th>
+                <th>Описание</th>
+                <th>Статус</th>
+                <th>Приоритет</th>
+                <th>Крайний срок</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.deadline }}</td>
+            <td><a href="/tasks/{{ task.id }}">Подробнее</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
