@@ -2,17 +2,21 @@ from flask_restful import Resource, reqparse
 from appflask.models.tasks import TasksSchem
 from appflask.backand.database import db
 
+'''
+парсеры для обработки входящих HTTP запросов
+'''
+
 task_create_parser = reqparse.RequestParser()
 task_create_parser.add_argument('title', type=str, required=True,
-                                help='Title is required.', location='json')
+                                help='Название задачи.', location='json')
 task_create_parser.add_argument('description', type=str, required=True,
-                                help='Description is required.', location='json')
+                                help='Описание задачи.', location='json')
 task_create_parser.add_argument('status', type=str, choices=('completed', 'incomplete'),
-                                required=True, help='Status is required.', location='json')
+                                required=True, help='Статус выполнения задачи', location='json')
 task_create_parser.add_argument('priority', type=str, choices=('low', 'medium', 'high'),
-                                required=True, help='Priority is required.', location='json')
+                                required=True, help='Приоритет задачи.(low, medium, high)', location='json')
 task_create_parser.add_argument('deadline', type=str, required=True,
-                                help='Deadline is required in YYYY-MM-DD format.',
+                                help='Крайний срок заполняеться в формате YYYY-MM-DD',
                                 location='json')
 
 task_update_parser = reqparse.RequestParser()
@@ -21,11 +25,20 @@ task_update_parser.add_argument('description', type=str, location='json')
 task_update_parser.add_argument('status', type=str, choices=('completed', 'incomplete'), location='json')
 task_update_parser.add_argument('priority', type=str, choices=('low', 'medium', 'high'), location='json')
 task_update_parser.add_argument('deadline', type=str,
-                                help='Deadline should be in YYYY-MM-DD format.', location='json')
+                                help='Крайний срок заполняеться в формате YYYY-MM-DD', location='json')
 
 
 class TaskApi(Resource):
+    """
+    API для управления задачами.
+    Класс предоставляет методы для получения списка всех задач, получения информации о конкретной задаче,
+    создания, обновления и удаления задач.
+    """
+
     def get(self, task_id=None):
+        """
+        Функция для получения иформации об одной задачи или всего списка задач.
+        """
         if task_id:
             task = TasksSchem.query.get_or_404(task_id)
             return {'id': task.id, 'title': task.title, 'description': task.description, 'status': task.status,
@@ -36,6 +49,9 @@ class TaskApi(Resource):
                      'priority': task.priority, 'deadline': task.deadline.strftime('%Y-%m-%d')} for task in tasks]
 
     def post(self):
+        """
+        Функция для создания новой задачи.
+        """
         args = task_create_parser.parse_args()
         new_task = TasksSchem(title=args['title'], description=args['description'], status=args['status'],
                               priority=args['priority'], deadline=args['deadline'])
@@ -47,6 +63,9 @@ class TaskApi(Resource):
         return [created_task, "Задача успешно создана"]
 
     def put(self, task_id):
+        """
+        Функция для обновления задачи.
+        """
         task = TasksSchem.query.get_or_404(task_id)
         args = task_update_parser.parse_args()
         if 'title' in args:
@@ -65,6 +84,9 @@ class TaskApi(Resource):
         return [updated_task, "Задача успешно обновлена"]
 
     def delete(self, task_id):
+        """
+        Функция для удаления задачи.
+        """
         task = TasksSchem.query.get_or_404(task_id)
         db.session.delete(task)
         db.session.commit()

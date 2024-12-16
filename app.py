@@ -11,6 +11,10 @@ api.add_resource(TaskApi, '/tasks', '/tasks/<int:task_id>')
 
 
 def create_app():
+    """
+    Создание и настройки приложения
+
+    """
     app.config['SQLALCHEMY_DATABASE_URI'] = get_url_db()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = SECRET_KEY
@@ -19,6 +23,10 @@ def create_app():
 
     @app.route('/')
     def home():
+        """
+        Отображение страницы со всеми задачами
+
+        """
         tasks_schem = TasksSchem.query.all()
         return render_template('tasksmanager.html', tasks=tasks_schem)
 

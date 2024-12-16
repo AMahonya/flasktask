@@ -7,9 +7,9 @@ urlid = 'http://127.0.0.1:5000/tasks/29'
 data = {
     "title": "Новая задача4",
     "description": "Описание 2",
-    "status": "incomplete",  #'completed', 'incomplete'
-    "priority": "high",  #'low', 'medium', 'high'
-    "deadline": "2024-03-25"  #YYYY-MM-DD
+    "status": "incomplete",  # 'completed', 'incomplete'
+    "priority": "high",  # 'low', 'medium', 'high'
+    "deadline": "2024-03-25"  # YYYY-MM-DD
 }
 response = requests.post(url, json=data)
 # responseput = requests.put(urlid, json=data)
